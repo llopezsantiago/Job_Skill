@@ -4,6 +4,7 @@ import plotly.express as px
 from Carga_datos import cargar_limpiar_datos as cld #Para usar la funcion cargar_limpiar_data del archivo Cargar_datos hacemos lo siguiente:
 from pes_geografia import geografia as geo
 from pes_salarial import salario as sal
+from pes_remoto import remoto as rem
 
 #configuramos la pagina web
 st.set_page_config(page_title="Analisis del mercado laboral", layout="wide")
@@ -26,22 +27,23 @@ pestaña_resumen, pestaña_salarial, pestaña_remoto, pestaña_geogafria, pesta�
 
 #1. Pestaña resumen
 with pestaña_resumen:
-    st.header("Análisis de Rentabilidad por Industria")
+    st.header("Analisis de Rentabilidad por Industria")
     
 
 #2. Pestaña resumen
 with pestaña_salarial:
-    st.header("Analisis descriptivo del salario por industria")
+    st.header("Análisis distributivo del salario por industria")
     sal()
 
 #3. Pestaña resumen
 with pestaña_remoto:
-    st.header("Análisis de Rentabilidad por Industria")
+    st.header("Análisis del impacto salarial en los trabajos remotos")
+    rem()
     
 
 #4. Pestaña resumen
 with pestaña_geogafria:
-    st.header("Análisis de Rentabilidad por Industria")
+    st.header("Análisis geografico del mercado laboral")
     geo()
 
 #1. Pestaña resumen
