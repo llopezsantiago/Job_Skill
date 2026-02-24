@@ -7,9 +7,7 @@ def salario():
     
     #Llamamos la funcion cargar_limpiar_datos as cld del archivo Cargar_datos
     data_sal = cld()
-
-    st.subheader("Estadistica descriptiva del salario en las industrias")
-
+    
     m1, m2, m3, m4 = st.columns(4)
     
     with m1:
@@ -57,8 +55,10 @@ def salario():
 
     st.divider()
 
-    df_grafico = estadisticas_salario.sort_values('Promedio (USD)', ascending=False)
+    mi_color = "#000000"
 
+    df_grafico = estadisticas_salario.sort_values('Promedio (USD)', ascending=False)
+    
     fig = px.bar(
             df_grafico,
             x='Industria',
@@ -66,27 +66,94 @@ def salario():
             title="Salario promedio de las industrias",
             labels={'Promedio (USD)': 'Salario Promedio (USD)', 'Industria': 'Sector'},
             color='Industria', #el color cambia segun el pais
-            color_discrete_sequence=px.colors.qualitative.Prism
+            color_discrete_sequence=px.colors.qualitative.G10
         )
-    # Ajustamos el espacio entre las barras (gap)
-    # 0.1 es un espacio moderado, 0 es totalmente pegadas
-    fig.update_layout(bargap=0.1)
     
-    #Mostramos el grafico en pantalla, pero no saldra el mensaje de advertencia
+
+    fig.update_layout(
+        bargap=0.1,  # CAMBIO: Se usa bargap en lugar de boxgap
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        showlegend=True, # RECOMENDACIÓN: Como ya tienes los nombres en el eje X, la leyenda sobra
+        title_font_color=mi_color,
+        font=dict(color=mi_color),
+        legend=dict(title_font_color=mi_color, # Color del título de la leyenda
+        font=dict(color=mi_color),  # Color de los textos de la leyenda
+        #bordercolor=mi_color,       # Opcional: borde de la leyenda
+        #borderwidth=1
+        ))
+    
+    fig.update_xaxes(
+        title_text="Industria", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True,
+        gridcolor='rgba(0,0,0,0.1)'
+    )
+
+    fig.update_yaxes(
+        title_text="Salario (USD)", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True, 
+        gridcolor='rgba(0,0,0,0.1)',
+        tickprefix="$", # añade signo de dólar
+        tickformat=","  # añade separador de miles
+    )
+    
+    
     st.plotly_chart(fig, on_select="ignore", selection_mode="points")
 
     st.divider()
-
+       
     fig_box = px.box(
         data_sal, 
         x='industry', 
         y='salary_usd', 
         color='industry',
-        title="Dispersión Salarial: ¿Dónde hay más variedad de sueldos?"
+        title="Dispersión Salarial: ¿Dónde hay más variedad de sueldos?",
+        color_discrete_sequence=px.colors.qualitative.G10
     )
-    st.plotly_chart(fig_box)
+    
+     
+
+    fig_box.update_layout(
+        bargap=0.1,  # CAMBIO: Se usa bargap en lugar de boxgap
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        showlegend=True, # RECOMENDACIÓN: Como ya tienes los nombres en el eje X, la leyenda sobra
+        title_font_color=mi_color,
+        font=dict(color=mi_color),
+        legend=dict(
+        title_font_color=mi_color, # Color del título de la leyenda
+        font=dict(color=mi_color),  # Color de los textos de la leyenda
+        #bordercolor=mi_color,       # Opcional: borde de la leyenda
+        #borderwidth=1
+        ))
+
+    fig_box.update_xaxes(
+        title_text="Industria", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True,
+        gridcolor='rgba(0,0,0,0.1)'
+    )
+
+    fig_box.update_yaxes(
+        title_text="Salario (USD)", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True, 
+        gridcolor='rgba(0,0,0,0.1)',
+        tickprefix="$", # añade signo de dólar
+        tickformat=","  # añade separador de miles
+    )
+
+    st.plotly_chart(fig_box, use_container_width=True)
+
 
     st.divider()
+
     st.subheader("Conclusiones del Análisis")
 
     # Extraemos datos para que la conclusión sea inteligente

@@ -62,7 +62,7 @@ def remoto():
             labels={'salary_usd':'Salario promedio (USD)','remote_option': 'Trabajo remoto', 'industry': 'Industria'},
             color='remote_option', #el color cambia segun el trabajo remoto
             barmode='group',
-            color_discrete_sequence=px.colors.qualitative.Prism
+            color_continuous_scale='Blues'
         )
     
     # Ajustamos el espacio entre las barras
