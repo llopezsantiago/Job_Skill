@@ -54,6 +54,8 @@ def remoto():
     #creamos la grafica de barras
     df_grafico = estadistica_remoto.sort_values(['remote_option','industry'], ascending=False)
     
+    mi_color = "#000000"
+
     fig = px.bar(
             df_grafico,
             x='industry',
@@ -62,14 +64,40 @@ def remoto():
             labels={'salary_usd':'Salario promedio (USD)','remote_option': 'Trabajo remoto', 'industry': 'Industria'},
             color='remote_option', #el color cambia segun el trabajo remoto
             barmode='group',
-            color_continuous_scale='Blues'
+            color_discrete_sequence=px.colors.qualitative.G10
         )
     
-    # Ajustamos el espacio entre las barras
-    # 0.1 es un espacio moderado, 0 es totalmente pegadas
-    fig.update_layout(bargap=0.1)
+    fig.update_layout(
+        bargap=0.1,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        showlegend=True, # RECOMENDACIÓN: Como ya tienes los nombres en el eje X, la leyenda sobra
+        title_font_color=mi_color,
+        font=dict(color=mi_color),
+        legend=dict(title_font_color=mi_color, # Color del título de la leyenda
+        font=dict(color=mi_color),  # Color de los textos de la leyenda
+        #bordercolor=mi_color,       # Opcional: borde de la leyenda
+        #borderwidth=1
+    ))
+
+    fig.update_xaxes(
+        title_text="Industria", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True,
+        gridcolor='rgba(0,0,0,0.1)'
+    )
+
+    fig.update_yaxes(
+        title_text="Salario (USD)", 
+        title_font=dict(color=mi_color, size=16), 
+        tickfont=dict(color=mi_color),
+        showgrid=True, 
+        gridcolor='rgba(0,0,0,0.1)',
+        #tickprefix="$", # añade signo de dólar
+        tickformat=","  # añade separador de miles
+    )
     
-    #Mostramos el grafico en pantalla, pero no saldra el mensaje de advertencia
     st.plotly_chart(fig, on_select="ignore", selection_mode="points")
 
     st.divider()

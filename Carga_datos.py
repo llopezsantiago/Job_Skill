@@ -7,7 +7,7 @@ import pandas as pd #libreria para tratar el database
 #creamos una funcion para cargar el archivo 10. Job y Skills.csv
 def cargar_limpiar_datos():
     df = pd.read_csv("10. Job y Skills.csv")
-
+    
     #1.Limpieza: Eliminas filas duplicadas, el drop_duplicates evita contar dos veces el mismo empleo
     df = df.drop_duplicates()
 
